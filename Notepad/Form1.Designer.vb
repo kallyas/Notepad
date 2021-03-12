@@ -43,11 +43,18 @@ Partial Class Notepad
         Me.mnuDefaultZoom = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuAbout = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mainStatusStrip = New System.Windows.Forms.StatusStrip()
         Me.VScrollBar1 = New System.Windows.Forms.VScrollBar()
         Me.scrlHorizontal = New System.Windows.Forms.HScrollBar()
         Me.dlgFont = New System.Windows.Forms.FontDialog()
+        Me.mainStatusStrip = New System.Windows.Forms.StatusStrip()
+        Me.tlsChars = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.tlsCharEncoding = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.mnuUndo = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuRedo = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuPaste = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuDel = New System.Windows.Forms.ToolStripMenuItem()
         Me.mainMenu.SuspendLayout()
+        Me.mainStatusStrip.SuspendLayout()
         Me.SuspendLayout()
         '
         'RichTextBox1
@@ -110,7 +117,7 @@ Partial Class Notepad
         '
         'EditToolStripMenuItem
         '
-        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCut, Me.mnuCopy})
+        Me.EditToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuCut, Me.mnuCopy, Me.mnuUndo, Me.mnuRedo, Me.mnuPaste, Me.mnuDel})
         Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
         Me.EditToolStripMenuItem.Size = New System.Drawing.Size(39, 20)
         Me.EditToolStripMenuItem.Text = "&Edit"
@@ -119,14 +126,14 @@ Partial Class Notepad
         '
         Me.mnuCut.Name = "mnuCut"
         Me.mnuCut.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.X), System.Windows.Forms.Keys)
-        Me.mnuCut.Size = New System.Drawing.Size(144, 22)
+        Me.mnuCut.Size = New System.Drawing.Size(180, 22)
         Me.mnuCut.Text = "Cut"
         '
         'mnuCopy
         '
         Me.mnuCopy.Name = "mnuCopy"
         Me.mnuCopy.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
-        Me.mnuCopy.Size = New System.Drawing.Size(144, 22)
+        Me.mnuCopy.Size = New System.Drawing.Size(180, 22)
         Me.mnuCopy.Text = "Copy"
         '
         'FormatToolStripMenuItem
@@ -139,13 +146,13 @@ Partial Class Notepad
         'mnuFont
         '
         Me.mnuFont.Name = "mnuFont"
-        Me.mnuFont.Size = New System.Drawing.Size(134, 22)
+        Me.mnuFont.Size = New System.Drawing.Size(180, 22)
         Me.mnuFont.Text = "Font"
         '
         'mnuWordWrap
         '
         Me.mnuWordWrap.Name = "mnuWordWrap"
-        Me.mnuWordWrap.Size = New System.Drawing.Size(134, 22)
+        Me.mnuWordWrap.Size = New System.Drawing.Size(180, 22)
         Me.mnuWordWrap.Text = "Word Wrap"
         '
         'ViewToolStripMenuItem
@@ -194,14 +201,6 @@ Partial Class Notepad
         Me.mnuAbout.Size = New System.Drawing.Size(156, 22)
         Me.mnuAbout.Text = "About Notepad"
         '
-        'mainStatusStrip
-        '
-        Me.mainStatusStrip.Location = New System.Drawing.Point(0, 509)
-        Me.mainStatusStrip.Name = "mainStatusStrip"
-        Me.mainStatusStrip.Size = New System.Drawing.Size(889, 22)
-        Me.mainStatusStrip.TabIndex = 2
-        Me.mainStatusStrip.Text = "bottomStatusStrip"
-        '
         'VScrollBar1
         '
         Me.VScrollBar1.Dock = System.Windows.Forms.DockStyle.Right
@@ -218,6 +217,54 @@ Partial Class Notepad
         Me.scrlHorizontal.Size = New System.Drawing.Size(887, 20)
         Me.scrlHorizontal.TabIndex = 4
         '
+        'mainStatusStrip
+        '
+        Me.mainStatusStrip.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.tlsChars, Me.tlsCharEncoding})
+        Me.mainStatusStrip.Location = New System.Drawing.Point(0, 509)
+        Me.mainStatusStrip.Name = "mainStatusStrip"
+        Me.mainStatusStrip.Size = New System.Drawing.Size(889, 22)
+        Me.mainStatusStrip.TabIndex = 2
+        Me.mainStatusStrip.Text = "bottomStatusStrip"
+        '
+        'tlsChars
+        '
+        Me.tlsChars.Margin = New System.Windows.Forms.Padding(0, 3, 550, 2)
+        Me.tlsChars.Name = "tlsChars"
+        Me.tlsChars.Size = New System.Drawing.Size(0, 17)
+        '
+        'tlsCharEncoding
+        '
+        Me.tlsCharEncoding.Name = "tlsCharEncoding"
+        Me.tlsCharEncoding.Size = New System.Drawing.Size(0, 17)
+        '
+        'mnuUndo
+        '
+        Me.mnuUndo.Name = "mnuUndo"
+        Me.mnuUndo.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Z), System.Windows.Forms.Keys)
+        Me.mnuUndo.Size = New System.Drawing.Size(180, 22)
+        Me.mnuUndo.Text = "Undo"
+        '
+        'mnuRedo
+        '
+        Me.mnuRedo.Name = "mnuRedo"
+        Me.mnuRedo.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Y), System.Windows.Forms.Keys)
+        Me.mnuRedo.Size = New System.Drawing.Size(180, 22)
+        Me.mnuRedo.Text = "Redo"
+        '
+        'mnuPaste
+        '
+        Me.mnuPaste.Name = "mnuPaste"
+        Me.mnuPaste.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
+        Me.mnuPaste.Size = New System.Drawing.Size(180, 22)
+        Me.mnuPaste.Text = "Paste"
+        '
+        'mnuDel
+        '
+        Me.mnuDel.Name = "mnuDel"
+        Me.mnuDel.ShortcutKeys = System.Windows.Forms.Keys.Delete
+        Me.mnuDel.Size = New System.Drawing.Size(180, 22)
+        Me.mnuDel.Text = "Delete"
+        '
         'Notepad
         '
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
@@ -233,6 +280,8 @@ Partial Class Notepad
         Me.Text = "Notepad"
         Me.mainMenu.ResumeLayout(False)
         Me.mainMenu.PerformLayout()
+        Me.mainStatusStrip.ResumeLayout(False)
+        Me.mainStatusStrip.PerformLayout()
         Me.ResumeLayout(False)
         Me.PerformLayout()
 
@@ -244,7 +293,6 @@ Partial Class Notepad
     Friend WithEvents EditToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents FormatToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ViewToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents mainStatusStrip As StatusStrip
     Friend WithEvents VScrollBar1 As VScrollBar
     Friend WithEvents mnuNew As ToolStripMenuItem
     Friend WithEvents HelpToolStripMenuItem As ToolStripMenuItem
@@ -263,4 +311,11 @@ Partial Class Notepad
     Friend WithEvents mnuZoomIn As ToolStripMenuItem
     Friend WithEvents mnuZoomOut As ToolStripMenuItem
     Friend WithEvents mnuDefaultZoom As ToolStripMenuItem
+    Friend WithEvents mainStatusStrip As StatusStrip
+    Friend WithEvents tlsChars As ToolStripStatusLabel
+    Friend WithEvents tlsCharEncoding As ToolStripStatusLabel
+    Friend WithEvents mnuUndo As ToolStripMenuItem
+    Friend WithEvents mnuRedo As ToolStripMenuItem
+    Friend WithEvents mnuPaste As ToolStripMenuItem
+    Friend WithEvents mnuDel As ToolStripMenuItem
 End Class

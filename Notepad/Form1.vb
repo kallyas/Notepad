@@ -116,7 +116,12 @@
 
 
     Private Sub Notepad_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        RichTextBox1.Font = New Drawing.Font("consolas", 16)
+        RichTextBox1.Font = New Drawing.Font("consolas", 11)
+        mnuCopy.Enabled = False
+        mnuCut.Enabled = False
+        mnuDel.Enabled = False
+        mnuUndo.Enabled = False
+        mnuRedo.Enabled = False
     End Sub
 
     Private Sub mnuWordWrap_Click(sender As Object, e As EventArgs) Handles mnuWordWrap.Click
@@ -132,6 +137,49 @@
     End Sub
 
     Private Sub mnuDefaultZoom_Click(sender As Object, e As EventArgs) Handles mnuDefaultZoom.Click
-        RichTextBox1.ZoomFactor = 0F
+        RichTextBox1.ZoomFactor = 0.5F
+    End Sub
+
+    Private Sub RichTextBox1_TextChanged(sender As Object, e As EventArgs) Handles RichTextBox1.TextChanged
+        tlsChars.Text = RichTextBox1.Text.Length & " Characters"
+        mnuUndo.Enabled = True
+        mnuRedo.Enabled = True
+
+        If  RichTextBox1.SelectedText .Length >0 Then
+            mnuCopy.Enabled = True
+            mnuCut.Enabled = True
+            mnuDel.Enabled = True
+
+        End If
+    End Sub
+
+    Private Sub mnuCut_Click(sender As Object, e As EventArgs) Handles mnuCut.Click
+        If RichTextBox1.SelectionLength > 0 Then
+            RichTextBox1.Cut()
+        End If
+    End Sub
+
+    Private Sub mnuUndo_Click(sender As Object, e As EventArgs) Handles mnuUndo.Click
+        If RichTextBox1.CanUndo Then
+            RichTextBox1.Undo()
+        End If
+    End Sub
+
+    Private Sub mnuRedo_Click(sender As Object, e As EventArgs) Handles mnuRedo.Click
+        If RichTextBox1.CanRedo Then
+            RichTextBox1.Redo()
+        End If
+    End Sub
+
+    Private Sub mnuPaste_Click(sender As Object, e As EventArgs) Handles mnuPaste.Click
+        If RichTextBox1.CanPaste(DataFormats.GetFormat(DataFormats.Text)) Then
+            RichTextBox1.Paste()
+        End If
+    End Sub
+
+    Private Sub mnuCopy_Click(sender As Object, e As EventArgs) Handles mnuCopy.Click
+        If RichTextBox1.SelectionLength > 0 Then
+            RichTextBox1.Copy()
+        End If
     End Sub
 End Class
