@@ -115,6 +115,7 @@
     End Sub
 
 
+    'disable some menus on start
     Private Sub Notepad_Load(sender As Object, e As EventArgs) Handles MyBase.Load
         RichTextBox1.Font = New Drawing.Font("consolas", 11)
         mnuCopy.Enabled = False
@@ -122,6 +123,7 @@
         mnuDel.Enabled = False
         mnuUndo.Enabled = False
         mnuRedo.Enabled = False
+        Me.Text = "Untitled - Notepad"
     End Sub
 
     Private Sub mnuWordWrap_Click(sender As Object, e As EventArgs) Handles mnuWordWrap.Click
@@ -145,7 +147,7 @@
         mnuUndo.Enabled = True
         mnuRedo.Enabled = True
 
-        If  RichTextBox1.SelectedText .Length >0 Then
+        If RichTextBox1.SelectedText.Length > 0 Then
             mnuCopy.Enabled = True
             mnuCut.Enabled = True
             mnuDel.Enabled = True
@@ -181,5 +183,20 @@
         If RichTextBox1.SelectionLength > 0 Then
             RichTextBox1.Copy()
         End If
+    End Sub
+
+    Private Sub mnuSave_Click(sender As Object, e As EventArgs) Handles mnuSave.Click
+        Using sfd As New SaveFileDialog
+            sfd.Filter = "Rich Text|*.rtf|Plain Text|*.txt"
+            sfd.AddExtension = True
+            If sfd.ShowDialog = DialogResult.OK Then
+                If sfd.FilterIndex = 1 Then
+                    RichTextBox1.SaveFile(sfd.FileName, RichTextBoxStreamType.RichText)
+                Else
+                    RichTextBox1.SaveFile(sfd.FileName, RichTextBoxStreamType.PlainText)
+                End If
+                Me.Text = sfd.FileName + " - Notepad"
+            End If
+        End Using
     End Sub
 End Class

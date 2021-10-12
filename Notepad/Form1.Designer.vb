@@ -33,6 +33,10 @@ Partial Class Notepad
         Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuCut = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuCopy = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuUndo = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuRedo = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuPaste = New System.Windows.Forms.ToolStripMenuItem()
+        Me.mnuDel = New System.Windows.Forms.ToolStripMenuItem()
         Me.FormatToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuFont = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuWordWrap = New System.Windows.Forms.ToolStripMenuItem()
@@ -49,10 +53,6 @@ Partial Class Notepad
         Me.mainStatusStrip = New System.Windows.Forms.StatusStrip()
         Me.tlsChars = New System.Windows.Forms.ToolStripStatusLabel()
         Me.tlsCharEncoding = New System.Windows.Forms.ToolStripStatusLabel()
-        Me.mnuUndo = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuRedo = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuPaste = New System.Windows.Forms.ToolStripMenuItem()
-        Me.mnuDel = New System.Windows.Forms.ToolStripMenuItem()
         Me.mainMenu.SuspendLayout()
         Me.mainStatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -86,33 +86,33 @@ Partial Class Notepad
         '
         Me.mnuNew.Name = "mnuNew"
         Me.mnuNew.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.mnuNew.Size = New System.Drawing.Size(154, 22)
+        Me.mnuNew.Size = New System.Drawing.Size(180, 22)
         Me.mnuNew.Text = "&New"
         '
         'mnuOpen
         '
         Me.mnuOpen.Name = "mnuOpen"
         Me.mnuOpen.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
-        Me.mnuOpen.Size = New System.Drawing.Size(154, 22)
+        Me.mnuOpen.Size = New System.Drawing.Size(180, 22)
         Me.mnuOpen.Text = "&Open"
         '
         'mnuSave
         '
         Me.mnuSave.Name = "mnuSave"
         Me.mnuSave.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.mnuSave.Size = New System.Drawing.Size(154, 22)
+        Me.mnuSave.Size = New System.Drawing.Size(180, 22)
         Me.mnuSave.Text = "&Save As"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(151, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(177, 6)
         '
         'mnuExit
         '
         Me.mnuExit.Name = "mnuExit"
         Me.mnuExit.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
-        Me.mnuExit.Size = New System.Drawing.Size(154, 22)
+        Me.mnuExit.Size = New System.Drawing.Size(180, 22)
         Me.mnuExit.Text = "E&xit"
         '
         'EditToolStripMenuItem
@@ -126,15 +126,43 @@ Partial Class Notepad
         '
         Me.mnuCut.Name = "mnuCut"
         Me.mnuCut.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.X), System.Windows.Forms.Keys)
-        Me.mnuCut.Size = New System.Drawing.Size(180, 22)
+        Me.mnuCut.Size = New System.Drawing.Size(144, 22)
         Me.mnuCut.Text = "Cut"
         '
         'mnuCopy
         '
         Me.mnuCopy.Name = "mnuCopy"
         Me.mnuCopy.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.C), System.Windows.Forms.Keys)
-        Me.mnuCopy.Size = New System.Drawing.Size(180, 22)
+        Me.mnuCopy.Size = New System.Drawing.Size(144, 22)
         Me.mnuCopy.Text = "Copy"
+        '
+        'mnuUndo
+        '
+        Me.mnuUndo.Name = "mnuUndo"
+        Me.mnuUndo.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Z), System.Windows.Forms.Keys)
+        Me.mnuUndo.Size = New System.Drawing.Size(144, 22)
+        Me.mnuUndo.Text = "Undo"
+        '
+        'mnuRedo
+        '
+        Me.mnuRedo.Name = "mnuRedo"
+        Me.mnuRedo.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Y), System.Windows.Forms.Keys)
+        Me.mnuRedo.Size = New System.Drawing.Size(144, 22)
+        Me.mnuRedo.Text = "Redo"
+        '
+        'mnuPaste
+        '
+        Me.mnuPaste.Name = "mnuPaste"
+        Me.mnuPaste.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
+        Me.mnuPaste.Size = New System.Drawing.Size(144, 22)
+        Me.mnuPaste.Text = "Paste"
+        '
+        'mnuDel
+        '
+        Me.mnuDel.Name = "mnuDel"
+        Me.mnuDel.ShortcutKeys = System.Windows.Forms.Keys.Delete
+        Me.mnuDel.Size = New System.Drawing.Size(144, 22)
+        Me.mnuDel.Text = "Delete"
         '
         'FormatToolStripMenuItem
         '
@@ -146,13 +174,13 @@ Partial Class Notepad
         'mnuFont
         '
         Me.mnuFont.Name = "mnuFont"
-        Me.mnuFont.Size = New System.Drawing.Size(180, 22)
+        Me.mnuFont.Size = New System.Drawing.Size(134, 22)
         Me.mnuFont.Text = "Font"
         '
         'mnuWordWrap
         '
         Me.mnuWordWrap.Name = "mnuWordWrap"
-        Me.mnuWordWrap.Size = New System.Drawing.Size(180, 22)
+        Me.mnuWordWrap.Size = New System.Drawing.Size(134, 22)
         Me.mnuWordWrap.Text = "Word Wrap"
         '
         'ViewToolStripMenuItem
@@ -166,7 +194,7 @@ Partial Class Notepad
         '
         Me.ZoomToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuZoomIn, Me.mnuZoomOut, Me.mnuDefaultZoom})
         Me.ZoomToolStripMenuItem.Name = "ZoomToolStripMenuItem"
-        Me.ZoomToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.ZoomToolStripMenuItem.Size = New System.Drawing.Size(106, 22)
         Me.ZoomToolStripMenuItem.Text = "Zoom"
         '
         'mnuZoomIn
@@ -236,34 +264,6 @@ Partial Class Notepad
         '
         Me.tlsCharEncoding.Name = "tlsCharEncoding"
         Me.tlsCharEncoding.Size = New System.Drawing.Size(0, 17)
-        '
-        'mnuUndo
-        '
-        Me.mnuUndo.Name = "mnuUndo"
-        Me.mnuUndo.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Z), System.Windows.Forms.Keys)
-        Me.mnuUndo.Size = New System.Drawing.Size(180, 22)
-        Me.mnuUndo.Text = "Undo"
-        '
-        'mnuRedo
-        '
-        Me.mnuRedo.Name = "mnuRedo"
-        Me.mnuRedo.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.Y), System.Windows.Forms.Keys)
-        Me.mnuRedo.Size = New System.Drawing.Size(180, 22)
-        Me.mnuRedo.Text = "Redo"
-        '
-        'mnuPaste
-        '
-        Me.mnuPaste.Name = "mnuPaste"
-        Me.mnuPaste.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.V), System.Windows.Forms.Keys)
-        Me.mnuPaste.Size = New System.Drawing.Size(180, 22)
-        Me.mnuPaste.Text = "Paste"
-        '
-        'mnuDel
-        '
-        Me.mnuDel.Name = "mnuDel"
-        Me.mnuDel.ShortcutKeys = System.Windows.Forms.Keys.Delete
-        Me.mnuDel.Size = New System.Drawing.Size(180, 22)
-        Me.mnuDel.Text = "Delete"
         '
         'Notepad
         '
