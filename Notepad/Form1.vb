@@ -85,7 +85,18 @@
     End Function
     'Save function
     Function saveData()
-        MsgBox("Yay it works")
+        Using sfd As New SaveFileDialog
+            sfd.Filter = "Rich Text|*.rtf|Plain Text|*.txt"
+            sfd.AddExtension = True
+            If sfd.ShowDialog = DialogResult.OK Then
+                If sfd.FilterIndex = 1 Then
+                    RichTextBox1.SaveFile(sfd.FileName, RichTextBoxStreamType.RichText)
+                Else
+                    RichTextBox1.SaveFile(sfd.FileName, RichTextBoxStreamType.PlainText)
+                End If
+                Me.Text = sfd.FileName + " - Notepad"
+            End If
+        End Using
     End Function
 
     Private Sub mnuExit_Click(sender As Object, e As EventArgs) Handles mnuExit.Click
@@ -96,13 +107,15 @@
             If DialogResult.No Then
                 End
             ElseIf DialogResult.Yes Then
-                saveData()
+                Me.saveData()
+                End
             ElseIf DialogResult.Cancel Then
                 Return
             Else
-                'Something went wrong!
+                End
             End If
         End If
+        End
     End Sub
 
     Private Sub mnuFont_Click(sender As Object, e As EventArgs) Handles mnuFont.Click
@@ -198,5 +211,9 @@
                 Me.Text = sfd.FileName + " - Notepad"
             End If
         End Using
+    End Sub
+
+    Private Sub mnuOpen_Click(sender As Object, e As EventArgs) Handles mnuOpen.Click
+
     End Sub
 End Class
