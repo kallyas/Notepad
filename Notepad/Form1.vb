@@ -1,4 +1,5 @@
-﻿Public Class Notepad
+﻿Imports System.IO
+Public Class Notepad
 
     Const zoomfactor = 0.1F
     Public Function WrapText(ByVal Text As String, ByVal LineLength As Integer) As List(Of String)
@@ -94,7 +95,9 @@
                 Else
                     RichTextBox1.SaveFile(sfd.FileName, RichTextBoxStreamType.PlainText)
                 End If
-                Me.Text = sfd.FileName + " - Notepad"
+                Dim strArr() As String
+                strArr = sfd.FileName.Split("\")
+                Me.Text = strArr(5) + " - Notepad"
             End If
         End Using
     End Function
@@ -208,12 +211,36 @@
                 Else
                     RichTextBox1.SaveFile(sfd.FileName, RichTextBoxStreamType.PlainText)
                 End If
-                Me.Text = sfd.FileName + " - Notepad"
+                Me.Text = sfd.FileName.Split("\")(4).Split(".")(0) + " - Notepad"
             End If
         End Using
     End Sub
 
+    'open existing file. supported formats. rtf, txt
     Private Sub mnuOpen_Click(sender As Object, e As EventArgs) Handles mnuOpen.Click
+        Using openFile As New OpenFileDialog
+            openFile.Filter = "Rich Text|*.rtf|Plain Text|*.txt"
+            openFile.AddExtension = True
+            If openFile.ShowDialog = DialogResult.OK Then
+                Dim path As String = openFile.FileName
+                Try
+                    If openFile.FilterIndex = 1 Then
+                        RichTextBox1.LoadFile(path)
+                        Me.Text = path.Split("\")(4).Split(".")(0)
+                    Else
+                        Dim text As String = File.ReadAllText(path)
+                        RichTextBox1.Text = text
+                        Me.Text = path.Split("\")(4).Split(".")(0)
+                    End If
+                Catch ex As Exception
+                    MsgBox(ex.Message.ToString(), MsgBoxStyle.Critical)
+                End Try
+            End If
+        End Using
+    End Sub
 
+    Private Sub mnuNew_Click(sender As Object, e As EventArgs) Handles mnuNew.Click
+        Dim ntpd = New Notepad()
+        ntpd.Show()
     End Sub
 End Class

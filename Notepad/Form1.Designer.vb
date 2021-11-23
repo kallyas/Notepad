@@ -174,13 +174,13 @@ Partial Class Notepad
         'mnuFont
         '
         Me.mnuFont.Name = "mnuFont"
-        Me.mnuFont.Size = New System.Drawing.Size(134, 22)
+        Me.mnuFont.Size = New System.Drawing.Size(180, 22)
         Me.mnuFont.Text = "Font"
         '
         'mnuWordWrap
         '
         Me.mnuWordWrap.Name = "mnuWordWrap"
-        Me.mnuWordWrap.Size = New System.Drawing.Size(134, 22)
+        Me.mnuWordWrap.Size = New System.Drawing.Size(180, 22)
         Me.mnuWordWrap.Text = "Word Wrap"
         '
         'ViewToolStripMenuItem
@@ -194,7 +194,7 @@ Partial Class Notepad
         '
         Me.ZoomToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.mnuZoomIn, Me.mnuZoomOut, Me.mnuDefaultZoom})
         Me.ZoomToolStripMenuItem.Name = "ZoomToolStripMenuItem"
-        Me.ZoomToolStripMenuItem.Size = New System.Drawing.Size(106, 22)
+        Me.ZoomToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.ZoomToolStripMenuItem.Text = "Zoom"
         '
         'mnuZoomIn
