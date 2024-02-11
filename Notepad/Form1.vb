@@ -1,4 +1,6 @@
 ﻿Imports System.IO
+Imports System.Net
+
 Public Class Notepad
 
     Const zoomfactor = 0.1F
@@ -203,15 +205,17 @@ Public Class Notepad
 
     Private Sub mnuSave_Click(sender As Object, e As EventArgs) Handles mnuSave.Click
         Using sfd As New SaveFileDialog
-            sfd.Filter = "Rich Text|*.rtf|Plain Text|*.txt"
+            sfd.Filter = "All Files (*.*)|*.*"
             sfd.AddExtension = True
-            If sfd.ShowDialog = DialogResult.OK Then
-                If sfd.FilterIndex = 1 Then
-                    RichTextBox1.SaveFile(sfd.FileName, RichTextBoxStreamType.RichText)
-                Else
-                    RichTextBox1.SaveFile(sfd.FileName, RichTextBoxStreamType.PlainText)
+            If sfd.ShowDialog() = DialogResult.OK Then
+                If RichTextBox1.Text <> "" Then
+                    Dim fileStream As New FileStream(sfd.FileName, FileMode.Create, FileAccess.Write)
+                    Dim writer As New StreamWriter(fileStream)
+                    writer.Write(RichTextBox1.Text)
+                    writer.Close()
+                    fileStream.Close()
                 End If
-                Me.Text = sfd.FileName.Split("\")(4).Split(".")(0) + " - Notepad"
+                Me.Text = sfd.FileName.Split("\")(sfd.FileName.Split("\").Length - 1).Split(".")(0) + " - Notepad"
             End If
         End Using
     End Sub
@@ -219,19 +223,14 @@ Public Class Notepad
     'open existing file. supported formats. rtf, txt
     Private Sub mnuOpen_Click(sender As Object, e As EventArgs) Handles mnuOpen.Click
         Using openFile As New OpenFileDialog
-            openFile.Filter = "Rich Text|*.rtf|Plain Text|*.txt"
+            openFile.Filter = "All Files (*.*)|*.*"
             openFile.AddExtension = True
-            If openFile.ShowDialog = DialogResult.OK Then
-                Dim path As String = openFile.FileName
+            If openFile.ShowDialog() = DialogResult.OK Then
+                Dim _path As String = openFile.FileName
                 Try
-                    If openFile.FilterIndex = 1 Then
-                        RichTextBox1.LoadFile(path)
-                        Me.Text = path.Split("\")(4).Split(".")(0)
-                    Else
-                        Dim text As String = File.ReadAllText(path)
-                        RichTextBox1.Text = text
-                        Me.Text = path.Split("\")(4).Split(".")(0)
-                    End If
+                    Dim text As String = File.ReadAllText(_path)
+                    RichTextBox1.Text = text
+                    Me.Text = Path.GetFileNameWithoutExtension(_path) & " - Notepad"
                 Catch ex As Exception
                     MsgBox(ex.Message.ToString(), MsgBoxStyle.Critical)
                 End Try
@@ -243,4 +242,33 @@ Public Class Notepad
         Dim ntpd = New Notepad()
         ntpd.Show()
     End Sub
+
+
+    Private Sub StatusBarToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles StatusBarToolStripMenuItem.Click
+        If mainStatusStrip.Visible Then
+            mainStatusStrip.Visible = False
+            StatusBarToolStripMenuItem.Image = Nothing ' Remove the check icon
+            StatusBarToolStripMenuItem.Text = "Satus Bar"
+        Else
+            mainStatusStrip.Visible = True
+            ' Load the check icon image from URL
+            Try
+                Dim wc As New WebClient()
+                Dim imageUrl As String = "https://cdns.iconmonstr.com/wp-content/releases/preview/2012/240/iconmonstr-check-mark-1.png" ' Replace this URL with the URL of your checkmark image
+                Dim imageData As Byte() = wc.DownloadData(imageUrl)
+                Dim ms As New System.IO.MemoryStream(imageData)
+                StatusBarToolStripMenuItem.Image = Image.FromStream(ms)
+                StatusBarToolStripMenuItem.Text = "Satus Bar"
+            Catch ex As Exception
+                ' Handle any errors while loading the image
+                MsgBox("Error loading checkmark image: " & ex.Message, MsgBoxStyle.Critical)
+            End Try
+        End If
+    End Sub
+
+    Private Sub mnuAbout_Click(sender As Object, e As EventArgs) Handles mnuAbout.Click
+        Dim aboutDialog As New AboutDialog()
+        aboutDialog.ShowDialog()
+    End Sub
+
 End Class

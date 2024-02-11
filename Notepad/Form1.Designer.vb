@@ -53,6 +53,7 @@ Partial Class Notepad
         Me.mainStatusStrip = New System.Windows.Forms.StatusStrip()
         Me.tlsChars = New System.Windows.Forms.ToolStripStatusLabel()
         Me.tlsCharEncoding = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.StatusBarToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.mainMenu.SuspendLayout()
         Me.mainStatusStrip.SuspendLayout()
         Me.SuspendLayout()
@@ -86,33 +87,33 @@ Partial Class Notepad
         '
         Me.mnuNew.Name = "mnuNew"
         Me.mnuNew.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.N), System.Windows.Forms.Keys)
-        Me.mnuNew.Size = New System.Drawing.Size(180, 22)
+        Me.mnuNew.Size = New System.Drawing.Size(154, 22)
         Me.mnuNew.Text = "&New"
         '
         'mnuOpen
         '
         Me.mnuOpen.Name = "mnuOpen"
         Me.mnuOpen.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.O), System.Windows.Forms.Keys)
-        Me.mnuOpen.Size = New System.Drawing.Size(180, 22)
+        Me.mnuOpen.Size = New System.Drawing.Size(154, 22)
         Me.mnuOpen.Text = "&Open"
         '
         'mnuSave
         '
         Me.mnuSave.Name = "mnuSave"
         Me.mnuSave.ShortcutKeys = CType((System.Windows.Forms.Keys.Control Or System.Windows.Forms.Keys.S), System.Windows.Forms.Keys)
-        Me.mnuSave.Size = New System.Drawing.Size(180, 22)
+        Me.mnuSave.Size = New System.Drawing.Size(154, 22)
         Me.mnuSave.Text = "&Save As"
         '
         'ToolStripSeparator1
         '
         Me.ToolStripSeparator1.Name = "ToolStripSeparator1"
-        Me.ToolStripSeparator1.Size = New System.Drawing.Size(177, 6)
+        Me.ToolStripSeparator1.Size = New System.Drawing.Size(151, 6)
         '
         'mnuExit
         '
         Me.mnuExit.Name = "mnuExit"
         Me.mnuExit.ShortcutKeys = CType((System.Windows.Forms.Keys.Alt Or System.Windows.Forms.Keys.F4), System.Windows.Forms.Keys)
-        Me.mnuExit.Size = New System.Drawing.Size(180, 22)
+        Me.mnuExit.Size = New System.Drawing.Size(154, 22)
         Me.mnuExit.Text = "E&xit"
         '
         'EditToolStripMenuItem
@@ -174,18 +175,18 @@ Partial Class Notepad
         'mnuFont
         '
         Me.mnuFont.Name = "mnuFont"
-        Me.mnuFont.Size = New System.Drawing.Size(180, 22)
+        Me.mnuFont.Size = New System.Drawing.Size(134, 22)
         Me.mnuFont.Text = "Font"
         '
         'mnuWordWrap
         '
         Me.mnuWordWrap.Name = "mnuWordWrap"
-        Me.mnuWordWrap.Size = New System.Drawing.Size(180, 22)
+        Me.mnuWordWrap.Size = New System.Drawing.Size(134, 22)
         Me.mnuWordWrap.Text = "Word Wrap"
         '
         'ViewToolStripMenuItem
         '
-        Me.ViewToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ZoomToolStripMenuItem})
+        Me.ViewToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.ZoomToolStripMenuItem, Me.StatusBarToolStripMenuItem})
         Me.ViewToolStripMenuItem.Name = "ViewToolStripMenuItem"
         Me.ViewToolStripMenuItem.Size = New System.Drawing.Size(44, 20)
         Me.ViewToolStripMenuItem.Text = "&View"
@@ -226,7 +227,7 @@ Partial Class Notepad
         'mnuAbout
         '
         Me.mnuAbout.Name = "mnuAbout"
-        Me.mnuAbout.Size = New System.Drawing.Size(156, 22)
+        Me.mnuAbout.Size = New System.Drawing.Size(180, 22)
         Me.mnuAbout.Text = "About Notepad"
         '
         'VScrollBar1
@@ -264,6 +265,12 @@ Partial Class Notepad
         '
         Me.tlsCharEncoding.Name = "tlsCharEncoding"
         Me.tlsCharEncoding.Size = New System.Drawing.Size(0, 17)
+        '
+        'StatusBarToolStripMenuItem
+        '
+        Me.StatusBarToolStripMenuItem.Name = "StatusBarToolStripMenuItem"
+        Me.StatusBarToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
+        Me.StatusBarToolStripMenuItem.Text = "Status Bar"
         '
         'Notepad
         '
@@ -318,4 +325,5 @@ Partial Class Notepad
     Friend WithEvents mnuRedo As ToolStripMenuItem
     Friend WithEvents mnuPaste As ToolStripMenuItem
     Friend WithEvents mnuDel As ToolStripMenuItem
+    Friend WithEvents StatusBarToolStripMenuItem As ToolStripMenuItem
 End Class
