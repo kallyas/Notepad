@@ -47,8 +47,6 @@ Partial Class Notepad
         Me.mnuDefaultZoom = New System.Windows.Forms.ToolStripMenuItem()
         Me.HelpToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
         Me.mnuAbout = New System.Windows.Forms.ToolStripMenuItem()
-        Me.VScrollBar1 = New System.Windows.Forms.VScrollBar()
-        Me.scrlHorizontal = New System.Windows.Forms.HScrollBar()
         Me.dlgFont = New System.Windows.Forms.FontDialog()
         Me.mainStatusStrip = New System.Windows.Forms.StatusStrip()
         Me.tlsChars = New System.Windows.Forms.ToolStripStatusLabel()
@@ -60,10 +58,11 @@ Partial Class Notepad
         '
         'RichTextBox1
         '
+        Me.RichTextBox1.BorderStyle = System.Windows.Forms.BorderStyle.None
         Me.RichTextBox1.Dock = System.Windows.Forms.DockStyle.Fill
         Me.RichTextBox1.Location = New System.Drawing.Point(0, 24)
         Me.RichTextBox1.Name = "RichTextBox1"
-        Me.RichTextBox1.Size = New System.Drawing.Size(889, 507)
+        Me.RichTextBox1.Size = New System.Drawing.Size(889, 485)
         Me.RichTextBox1.TabIndex = 0
         Me.RichTextBox1.Text = ""
         '
@@ -75,6 +74,7 @@ Partial Class Notepad
         Me.mainMenu.Size = New System.Drawing.Size(889, 24)
         Me.mainMenu.TabIndex = 1
         Me.mainMenu.Text = "mainMenu"
+        Me.mainMenu.RenderMode = System.Windows.Forms.ToolStripRenderMode.Professional
         '
         'FileToolStripMenuItem
         '
@@ -180,6 +180,7 @@ Partial Class Notepad
         '
         'mnuWordWrap
         '
+        Me.mnuWordWrap.CheckOnClick = True
         Me.mnuWordWrap.Name = "mnuWordWrap"
         Me.mnuWordWrap.Size = New System.Drawing.Size(134, 22)
         Me.mnuWordWrap.Text = "Word Wrap"
@@ -230,21 +231,6 @@ Partial Class Notepad
         Me.mnuAbout.Size = New System.Drawing.Size(180, 22)
         Me.mnuAbout.Text = "About Notepad"
         '
-        'VScrollBar1
-        '
-        Me.VScrollBar1.Dock = System.Windows.Forms.DockStyle.Right
-        Me.VScrollBar1.Location = New System.Drawing.Point(887, 24)
-        Me.VScrollBar1.Name = "VScrollBar1"
-        Me.VScrollBar1.Size = New System.Drawing.Size(2, 485)
-        Me.VScrollBar1.TabIndex = 3
-        '
-        'scrlHorizontal
-        '
-        Me.scrlHorizontal.Dock = System.Windows.Forms.DockStyle.Bottom
-        Me.scrlHorizontal.Location = New System.Drawing.Point(0, 489)
-        Me.scrlHorizontal.Name = "scrlHorizontal"
-        Me.scrlHorizontal.Size = New System.Drawing.Size(887, 20)
-        Me.scrlHorizontal.TabIndex = 4
         '
         'mainStatusStrip
         '
@@ -268,6 +254,7 @@ Partial Class Notepad
         '
         'StatusBarToolStripMenuItem
         '
+        Me.StatusBarToolStripMenuItem.CheckOnClick = True
         Me.StatusBarToolStripMenuItem.Name = "StatusBarToolStripMenuItem"
         Me.StatusBarToolStripMenuItem.Size = New System.Drawing.Size(180, 22)
         Me.StatusBarToolStripMenuItem.Text = "Status Bar"
@@ -277,10 +264,8 @@ Partial Class Notepad
         Me.AutoScaleDimensions = New System.Drawing.SizeF(6.0!, 13.0!)
         Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
         Me.ClientSize = New System.Drawing.Size(889, 531)
-        Me.Controls.Add(Me.scrlHorizontal)
-        Me.Controls.Add(Me.VScrollBar1)
-        Me.Controls.Add(Me.mainStatusStrip)
         Me.Controls.Add(Me.RichTextBox1)
+        Me.Controls.Add(Me.mainStatusStrip)
         Me.Controls.Add(Me.mainMenu)
         Me.MainMenuStrip = Me.mainMenu
         Me.Name = "Notepad"
@@ -300,7 +285,6 @@ Partial Class Notepad
     Friend WithEvents EditToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents FormatToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents ViewToolStripMenuItem As ToolStripMenuItem
-    Friend WithEvents VScrollBar1 As VScrollBar
     Friend WithEvents mnuNew As ToolStripMenuItem
     Friend WithEvents HelpToolStripMenuItem As ToolStripMenuItem
     Friend WithEvents mnuOpen As ToolStripMenuItem
@@ -311,7 +295,6 @@ Partial Class Notepad
     Friend WithEvents mnuCopy As ToolStripMenuItem
     Friend WithEvents mnuFont As ToolStripMenuItem
     Friend WithEvents mnuAbout As ToolStripMenuItem
-    Friend WithEvents scrlHorizontal As HScrollBar
     Friend WithEvents dlgFont As FontDialog
     Friend WithEvents mnuWordWrap As ToolStripMenuItem
     Friend WithEvents ZoomToolStripMenuItem As ToolStripMenuItem

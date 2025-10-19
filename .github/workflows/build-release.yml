@@ -1,0 +1,188 @@
+name: Build and Release
+
+on:
+  push:
+    tags:
+      - 'v*.*.*'
+  pull_request:
+    branches: [ main, master ]
+  workflow_dispatch:
+
+env:
+  DOTNET_VERSION: '4.7.2'
+  PROJECT_NAME: 'Notepad'
+  SOLUTION_PATH: 'Notepad.sln'
+
+jobs:
+  build:
+    name: Build Application
+    runs-on: windows-latest
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+      with:
+        fetch-depth: 0
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup NuGet
+      uses: nuget/setup-nuget@v2
+
+    - name: Restore NuGet packages
+      run: nuget restore ${{ env.SOLUTION_PATH }}
+
+    - name: Build Solution (Debug)
+      if: github.event_name == 'pull_request'
+      run: msbuild ${{ env.SOLUTION_PATH }} /p:Configuration=Debug /p:Platform="Any CPU" /p:OutputPath=bin\Debug
+
+    - name: Build Solution (Release)
+      if: github.event_name != 'pull_request'
+      run: msbuild ${{ env.SOLUTION_PATH }} /p:Configuration=Release /p:Platform="Any CPU" /p:OutputPath=bin\Release
+
+    - name: List build output
+      run: |
+        echo "Contents of Notepad/bin/Release:"
+        dir Notepad\bin\Release
+      if: github.event_name != 'pull_request'
+
+    - name: Package Release
+      if: startsWith(github.ref, 'refs/tags/v')
+      run: |
+        $version = "${{ github.ref_name }}"
+        $outputDir = "Notepad\bin\Release"
+        $packageName = "${{ env.PROJECT_NAME }}-$version"
+        
+        # Create release directory
+        New-Item -ItemType Directory -Force -Path "release\$packageName"
+        
+        # Copy necessary files
+        Copy-Item "$outputDir\Notepad.exe" "release\$packageName\"
+        Copy-Item "$outputDir\Notepad.exe.config" "release\$packageName\" -ErrorAction SilentlyContinue
+        Copy-Item "README.md" "release\$packageName\"
+        
+        # Create ZIP file
+        Compress-Archive -Path "release\$packageName\*" -DestinationPath "release\$packageName.zip"
+        
+        echo "Package created: $packageName.zip"
+        dir release
+      shell: pwsh
+
+    - name: Upload Build Artifacts
+      if: github.event_name != 'pull_request'
+      uses: actions/upload-artifact@v4
+      with:
+        name: ${{ env.PROJECT_NAME }}-Build
+        path: Notepad/bin/Release/
+        retention-days: 7
+
+    - name: Upload Release Package
+      if: startsWith(github.ref, 'refs/tags/v')
+      uses: actions/upload-artifact@v4
+      with:
+        name: Release-Package
+        path: release/*.zip
+        retention-days: 90
+
+  release:
+    name: Create GitHub Release
+    needs: build
+    runs-on: windows-latest
+    if: startsWith(github.ref, 'refs/tags/v')
+    permissions:
+      contents: write
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Download Release Package
+      uses: actions/download-artifact@v4
+      with:
+        name: Release-Package
+        path: release
+
+    - name: Extract version from tag
+      id: version
+      run: |
+        $version = "${{ github.ref_name }}" -replace '^v', ''
+        echo "version=$version" >> $env:GITHUB_OUTPUT
+        echo "Version: $version"
+      shell: pwsh
+
+    - name: Create Release Notes
+      id: release_notes
+      run: |
+        $version = "${{ steps.version.outputs.version }}"
+        $notes = @"
+        ## Notepad v$version
+        
+        ### 🎨 Features
+        - Modern dark theme UI
+        - Professional appearance with sleek functionality
+        - Enhanced text editing experience
+        
+        ### 📦 Installation
+        1. Download the ``Notepad-v$version.zip`` file below
+        2. Extract the ZIP file to your preferred location
+        3. Run ``Notepad.exe``
+        
+        ### ⚙️ Requirements
+        - Windows 7 or later
+        - .NET Framework 4.7.2 or higher
+        
+        ### 📝 Changelog
+        See the [README.md](https://github.com/${{ github.repository }}/blob/main/README.md) for detailed changelog.
+        
+        ### 🐛 Bug Reports
+        Please report issues on our [Issues page](https://github.com/${{ github.repository }}/issues).
+        "@
+        
+        $notes | Out-File -FilePath release_notes.md -Encoding utf8
+        Get-Content release_notes.md
+      shell: pwsh
+
+    - name: Create GitHub Release
+      uses: softprops/action-gh-release@v2
+      with:
+        name: Notepad v${{ steps.version.outputs.version }}
+        body_path: release_notes.md
+        files: release/*.zip
+        draft: false
+        prerelease: false
+        generate_release_notes: true
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+
+  test:
+    name: Run Tests
+    runs-on: windows-latest
+    if: github.event_name == 'pull_request'
+    
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Setup MSBuild
+      uses: microsoft/setup-msbuild@v2
+
+    - name: Setup NuGet
+      uses: nuget/setup-nuget@v2
+
+    - name: Restore NuGet packages
+      run: nuget restore ${{ env.SOLUTION_PATH }}
+
+    - name: Build Solution (Debug)
+      run: msbuild ${{ env.SOLUTION_PATH }} /p:Configuration=Debug /p:Platform="Any CPU"
+
+    - name: Verify Build Output
+      run: |
+        if (Test-Path "Notepad\bin\Debug\Notepad.exe") {
+          echo "✅ Build successful - Notepad.exe found"
+          exit 0
+        } else {
+          echo "❌ Build failed - Notepad.exe not found"
+          exit 1
+        }
+      shell: pwsh
