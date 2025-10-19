@@ -86,7 +86,7 @@ Public Class Notepad
         Return ReturnValue
     End Function
     'Save function
-    Function saveData()
+    Sub saveData()
         Using sfd As New SaveFileDialog
             sfd.Filter = "Rich Text|*.rtf|Plain Text|*.txt"
             sfd.AddExtension = True
@@ -101,7 +101,7 @@ Public Class Notepad
                 Me.Text = strArr(5) + " - Notepad"
             End If
         End Using
-    End Function
+    End Sub
 
     Private Sub mnuExit_Click(sender As Object, e As EventArgs) Handles mnuExit.Click
         'Exit with save confirmation
