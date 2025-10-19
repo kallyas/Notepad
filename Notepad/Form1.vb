@@ -1,5 +1,4 @@
 ﻿Imports System.IO
-Imports System.Net
 
 Public Class Notepad
 
@@ -105,22 +104,20 @@ Public Class Notepad
     End Function
 
     Private Sub mnuExit_Click(sender As Object, e As EventArgs) Handles mnuExit.Click
-        'End
-        'We can use a self reference object Me
+        'Exit with save confirmation
         If RichTextBox1.Text <> Nothing Then
-            MsgBox("Do you want to save changes to Untitled?", MessageBoxButtons.YesNoCancel)
-            If DialogResult.No Then
-                End
-            ElseIf DialogResult.Yes Then
+            Dim result As DialogResult = MessageBox.Show("Do you want to save changes to Untitled?", "Notepad", MessageBoxButtons.YesNoCancel, MessageBoxIcon.Question)
+            If result = DialogResult.Yes Then
                 Me.saveData()
                 End
-            ElseIf DialogResult.Cancel Then
-                Return
-            Else
+            ElseIf result = DialogResult.No Then
                 End
+            ElseIf result = DialogResult.Cancel Then
+                Return
             End If
+        Else
+            End
         End If
-        End
     End Sub
 
     Private Sub mnuFont_Click(sender As Object, e As EventArgs) Handles mnuFont.Click
@@ -133,19 +130,32 @@ Public Class Notepad
     End Sub
 
 
-    'disable some menus on start
+    'disable some menus on start and apply modern styling
     Private Sub Notepad_Load(sender As Object, e As EventArgs) Handles MyBase.Load
-        RichTextBox1.Font = New Drawing.Font("consolas", 11)
+        RichTextBox1.Font = New Drawing.Font("Consolas", 11)
+        RichTextBox1.BackColor = Color.FromArgb(30, 30, 30)
+        RichTextBox1.ForeColor = Color.FromArgb(220, 220, 220)
+        
+        mainMenu.BackColor = Color.FromArgb(45, 45, 48)
+        mainMenu.ForeColor = Color.White
+        
+        mainStatusStrip.BackColor = Color.FromArgb(0, 122, 204)
+        mainStatusStrip.ForeColor = Color.White
+        
+        Me.BackColor = Color.FromArgb(37, 37, 38)
+        
         mnuCopy.Enabled = False
         mnuCut.Enabled = False
         mnuDel.Enabled = False
         mnuUndo.Enabled = False
         mnuRedo.Enabled = False
+        StatusBarToolStripMenuItem.Checked = True
         Me.Text = "Untitled - Notepad"
     End Sub
 
     Private Sub mnuWordWrap_Click(sender As Object, e As EventArgs) Handles mnuWordWrap.Click
-        WrapText(RichTextBox1.Text, 30)
+        RichTextBox1.WordWrap = Not RichTextBox1.WordWrap
+        mnuWordWrap.Checked = RichTextBox1.WordWrap
     End Sub
 
     Private Sub mnuZoomIn_Click(sender As Object, e As EventArgs) Handles mnuZoomIn.Click
@@ -157,7 +167,7 @@ Public Class Notepad
     End Sub
 
     Private Sub mnuDefaultZoom_Click(sender As Object, e As EventArgs) Handles mnuDefaultZoom.Click
-        RichTextBox1.ZoomFactor = 0.5F
+        RichTextBox1.ZoomFactor = 1.0F
     End Sub
 
     Private Sub RichTextBox1_TextChanged(sender As Object, e As EventArgs) Handles RichTextBox1.TextChanged
@@ -247,28 +257,22 @@ Public Class Notepad
     Private Sub StatusBarToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles StatusBarToolStripMenuItem.Click
         If mainStatusStrip.Visible Then
             mainStatusStrip.Visible = False
-            StatusBarToolStripMenuItem.Image = Nothing ' Remove the check icon
-            StatusBarToolStripMenuItem.Text = "Satus Bar"
+            StatusBarToolStripMenuItem.Checked = False
         Else
             mainStatusStrip.Visible = True
-            ' Load the check icon image from URL
-            Try
-                Dim wc As New WebClient()
-                Dim imageUrl As String = "https://cdns.iconmonstr.com/wp-content/releases/preview/2012/240/iconmonstr-check-mark-1.png" ' Replace this URL with the URL of your checkmark image
-                Dim imageData As Byte() = wc.DownloadData(imageUrl)
-                Dim ms As New System.IO.MemoryStream(imageData)
-                StatusBarToolStripMenuItem.Image = Image.FromStream(ms)
-                StatusBarToolStripMenuItem.Text = "Satus Bar"
-            Catch ex As Exception
-                ' Handle any errors while loading the image
-                MsgBox("Error loading checkmark image: " & ex.Message, MsgBoxStyle.Critical)
-            End Try
+            StatusBarToolStripMenuItem.Checked = True
         End If
     End Sub
 
     Private Sub mnuAbout_Click(sender As Object, e As EventArgs) Handles mnuAbout.Click
         Dim aboutDialog As New AboutDialog()
         aboutDialog.ShowDialog()
+    End Sub
+
+    Private Sub mnuDel_Click(sender As Object, e As EventArgs) Handles mnuDel.Click
+        If RichTextBox1.SelectionLength > 0 Then
+            RichTextBox1.SelectedText = ""
+        End If
     End Sub
 
 End Class
