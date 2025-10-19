@@ -21,7 +21,7 @@
         Me.Controls.Add(lblTitle)
 
         Dim lblVersion As New Label()
-        lblVersion.Text = "Version 2.0"
+        lblVersion.Text = "Version 2.0.0"
         lblVersion.Font = New Font("Segoe UI", 11)
         lblVersion.ForeColor = Color.FromArgb(220, 220, 220)
         lblVersion.AutoSize = True
